@@ -5,10 +5,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -60,17 +57,16 @@ public class JobData {
     /**
      * Returns results of search the jobs data by key/value, using
      * inclusion of the search term.
-     *
+     * <p>
      * For example, searching for employer "Enterprise" will include results
      * with "Enterprise Holdings, Inc".
      *
-     * @param column   Column that should be searched.
-     * @param value Value of teh field to search for
+     * @param column Column that should be searched.
+     * @param value  Value of teh field to search for
      * @return List of all jobs matching the criteria
      */
     public static ArrayList<HashMap<String, String>> findByColumnAndValue(String column, String value) {
 
-        // load data, if not already loaded
         loadData();
 
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
@@ -91,20 +87,44 @@ public class JobData {
      * Search all columns for the given term
      *
      * @param value The search term to look for
-     * @return      List of all jobs with at least one field containing the value
+     * @return List of all jobs with at least one field containing the value
      */
     public static ArrayList<HashMap<String, String>> findByValue(String value) {
 
-        // load data, if not already loaded
+
         loadData();
 
+        ArrayList<HashMap<String, String>> matchingJobs = new ArrayList<>(); // new array list
+
+        for (HashMap<String, String> job : allJobs) { // outer for each job in allJobs
+            Set<Map.Entry<String, String>> jobEntries = job.entrySet(); // job info for each job turned into a set
+
+            for (Map.Entry<String, String> entry : jobEntries) {// iterates for each entry inm
+                String JobEntryValue = entry.getValue(); // string for value of entry
+
+                if (JobEntryValue.toLowerCase().contains(value.toLowerCase())) { // conditional if value contains jobMatch
+                    matchingJobs.add(job);// adds the job with matching value
+                }
+
+            }
+        }
+
+
+
+//last line of method
         // TODO - implement this method
-        return null;
+        return matchingJobs;
     }
+
+
+
+
 
     /**
      * Read in data from a CSV file and store it in a list
      */
+
+    //load data starts
     private static void loadData() {
 
         // Only load data once
@@ -141,6 +161,8 @@ public class JobData {
             System.out.println("Failed to load job data");
             e.printStackTrace();
         }
+
     }
+    //load data ends
 
 }

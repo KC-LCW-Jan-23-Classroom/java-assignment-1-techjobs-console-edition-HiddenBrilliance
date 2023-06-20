@@ -107,7 +107,7 @@ public class TechJobs {
 
             // Validate user's input
             if (choiceIdx < 0 || choiceIdx >= choiceKeys.length) {
-                System.out.println("No results");
+                System.out.println("Invalid choice. Try again.");
             } else {
                 validChoice = true;
             }
@@ -119,21 +119,19 @@ public class TechJobs {
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
-
-
+        if(someJobs.size() > 0){
         for (HashMap<String, String> jobInformation : someJobs) {
-            System.out.println("*****");
-            System.out.println("\n");
-            System.out.println("*****");
-
-
+            System.out.println("\n*****");
             for (Map.Entry<String, String> job : jobInformation.entrySet()){
-
-                System.out.println(job.getKey() + ":" + job.getValue());
-
+                System.out.println(job.getKey() + ":" + " " + job.getValue());
             }
-
+            System.out.println("*****");
         }
+
     }
+        else {
+            System.out.println("No Results");
+        }
+}
 }
 
